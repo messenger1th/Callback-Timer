@@ -1,13 +1,25 @@
-//
-// Created by epoch on 10/20/22.
-//
+# Callback Timer
+
+## Feature 
+
+* support each type of function.
+* use perfect forward to avoid duplicate type.
+* use `unique_lock` to avoid data race.
+* use `condition_variable` to notify timer thread execute command.
+* use `condition_variabel::wait_for` to awake periodically.
 
 
-#include <chrono>
-#include <thread>
-#include "Timer.hpp"
 
-using namespace std;
+## Structure
+
+<img src="./README/image-20221112142226223.png" alt="image-20221112142226223" style="zoom:67%;" />
+
+
+
+## Usage
+
+```cpp
+/* see test_timer.cpp */
 class self_define_class {
 public:
     void f() {
@@ -58,3 +70,5 @@ int main() {
     timer3.restart();
     while (true);
 }
+```
+
