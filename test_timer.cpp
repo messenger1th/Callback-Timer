@@ -3,29 +3,33 @@
 //
 
 #include <iostream>
+#include <chrono>
+#include <thread>
 #include "Timer.hpp"
-using std::cout,std::endl;
 
+using namespace std;
+class Temp {
+public:
+    void f() {
+//        cout << "ehhhh" << endl;
+    }
+};
 
-using namespace  std;
-
-void f() {
-    cout << "hello Timer" << endl;
-}
-
-
+using namespace std;
 
 int main() {
     using ms = std::chrono::milliseconds;
     using sec = std::chrono::seconds;
-    ms s2; s2.zero();
-    std::atomic<ms> s(ms(-1));
-    cout << typeid(s.load().count()).name() << endl;
-    Timer<ms> timer(ms(1000), ms(10));
+    ms s1(ms(1));
+    atomic<ms> a(s1);
 
-    timer.start(f);
-    this_thread::sleep_for(sec (5));
+    Timer<ms> timer(1000);
 
-    timer.stop();
-    this_thread::sleep_for(sec(1));
+    Temp t;
+    timer.set_callback(&Temp::f, t);
+    timer.run();
+    std::this_thread::sleep_for(std::chrono::seconds (2));
+    timer.pause();
+    timer.reset();
+    while (true);
 }
